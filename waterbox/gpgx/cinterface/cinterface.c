@@ -469,20 +469,20 @@ GPGX_EX void gpgx_write_m68k_bus(unsigned addr, unsigned data)
 {
 	cpu_memory_map m = m68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.write8)
-		m.base[addr & 0xffff ^ 1] = data;
+		m.base[(addr & 0xffff) ^ 1] = data;
 }
 
 GPGX_EX void gpgx_write_s68k_bus(unsigned addr, unsigned data)
 {
 	cpu_memory_map m = s68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.write8)
-		m.base[addr & 0xffff ^ 1] = data;
+		m.base[(addr & 0xffff) ^ 1] = data;
 }
 GPGX_EX unsigned gpgx_peek_m68k_bus(unsigned addr)
 {
 	cpu_memory_map m = m68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.read8)
-		return m.base[addr & 0xffff ^ 1];
+		return m.base[(addr & 0xffff) ^ 1];
 	else
 		return 0xff;
 }
@@ -490,7 +490,7 @@ GPGX_EX unsigned gpgx_peek_s68k_bus(unsigned addr)
 {
 	cpu_memory_map m = s68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.read8)
-		return m.base[addr & 0xffff ^ 1];
+		return m.base[(addr & 0xffff) ^ 1];
 	else
 		return 0xff;
 }
