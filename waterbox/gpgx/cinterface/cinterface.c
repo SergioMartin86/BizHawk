@@ -719,6 +719,24 @@ void bk_cpu_hook(hook_type_t type, int width, unsigned int address, unsigned int
 	return 1;
 }
 
+int gpgx_state_size()
+{
+  unsigned char* buffer = (unsigned char*)malloc(2 * 1024 * 1024);
+  int size = state_save(buffer);
+  free(buffer);
+  return size;
+}
+
+int gpgx_state_save(const char* buffer)
+{
+	return state_save(buffer);
+}
+
+int gpgx_state_load(const char* buffer)
+{
+	return state_load(buffer);
+}		
+
 #ifdef USE_RAM_DEEPFREEZE
 
  int gpgx_add_deepfreeze_list_entry(const int address, const uint8_t value)

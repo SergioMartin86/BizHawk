@@ -111,6 +111,7 @@ SRCS = $(GPGX_DIR)/core/sound/sound.c \
 	   $(GPGX_DIR)/core/cart_hw/megasd.c \
 	   $(GPGX_DIR)/core/debug/cpuhook.c \
 	   $(GPGX_DIR)/core/loadrom.c \
+	   $(GPGX_DIR)/core/state.c \
 	   cinterface/cinterface.c \
 	   cinterface/cddImpl.c
 

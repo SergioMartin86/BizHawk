@@ -63,14 +63,13 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 
             Console.WriteLine("GPGX: Initializing...");
 			var initResult = Core.gpgx_init(romextension, LoadCallback, _syncSettings.GetNativeSettings(lp.Game));
-            Console.WriteLine("GPGX: Initialization result: ", initResult);
 			if (!initResult)
 			{
 			    Console.WriteLine("GPGX: Initialization failed!");
 				throw new Exception($"{nameof(Core.gpgx_init)}() failed");
 			}
 
-			Console.WriteLine("GPGX: Initialization succeedd!: ");
+			Console.WriteLine("GPGX: Initialization succeed.");
 			{
 				int fpsnum = 60;
 				int fpsden = 1;
@@ -79,6 +78,8 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 				VsyncDenominator = fpsden;
 				Region = VsyncNumerator / VsyncDenominator > 55 ? DisplayType.NTSC : DisplayType.PAL;
 			}
+
+            InitSaveStateBuff();
 
 			// when we call Seal, ANY pointer passed from managed code must be 0.
 			// this is so the initial state is clean

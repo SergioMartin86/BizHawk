@@ -15,6 +15,29 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 		[BizImport(CallingConvention.Cdecl)]
 		public abstract void gpgx_get_audio(ref int n, ref IntPtr buffer);
 
+		/// <summary>
+		/// get the required byte size of a savestate
+		/// </summary>
+		/// <returns>string error</returns>
+		[BizImport(CallingConvention.Cdecl)]
+		public abstract int gpgx_state_size();
+
+		/// <summary>
+		/// save state to buffer
+		/// </summary>
+		/// <param name="dest">buffer</param>
+		/// <returns>Bytes saved</returns>
+		[BizImport(CallingConvention.Cdecl)]
+		public abstract int gpgx_state_save(byte[] dest);
+
+		/// <summary>
+		/// load state from buffer
+		/// </summary>
+		/// <param name="src">buffer</param>
+		/// <returns>Bytes loaded</returns>
+		[BizImport(CallingConvention.Cdecl)]
+		public abstract int gpgx_state_load(byte[] src);
+
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int load_archive_cb(string filename, IntPtr buffer, int maxsize);
 
