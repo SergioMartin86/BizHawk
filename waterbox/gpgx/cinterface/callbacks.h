@@ -1,19 +1,17 @@
 #ifndef CALLBACKS_H
 #define CALLBACKS_H
 
-#include <emulibc.h>
-
 #include "types.h"
 
-typedef ECL_ENTRY void (*CDCallback)(int32 addr, int32 addrtype, int32 flags);
+typedef  void (*CDCallback)(int32 addr, int32 addrtype, int32 flags);
 
-extern ECL_ENTRY void (*biz_execcb)(unsigned addr);
-extern ECL_ENTRY void (*biz_readcb)(unsigned addr);
-extern ECL_ENTRY void (*biz_writecb)(unsigned addr);
+extern  void (*biz_execcb)(unsigned addr);
+extern  void (*biz_readcb)(unsigned addr);
+extern  void (*biz_writecb)(unsigned addr);
 extern CDCallback biz_cdcb;
 extern unsigned biz_lastpc;
 
-extern ECL_ENTRY void (*cdd_readcallback)(int lba, void *dest, int audio);
+extern  void (*cdd_readcallback)(int lba, void *dest, int audio);
 
 enum eCDLog_AddrType
 {

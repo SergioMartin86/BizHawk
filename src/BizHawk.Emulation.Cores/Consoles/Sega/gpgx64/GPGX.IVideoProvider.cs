@@ -50,40 +50,37 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 				return;
 			}
 
-			using (_elf.EnterExit())
+			IntPtr src = IntPtr.Zero;
+
+			Core.gpgx_get_video(out var gpwidth, out var gpheight, out var gppitch, ref src);
+
+			_vwidth = gpwidth;
+			_vheight = gpheight;
+
+			if (_settings.PadScreen320 && _vwidth == 256)
+				_vwidth = 320;
+
+			int xpad = (_vwidth - gpwidth) / 2;
+			int xpad2 = _vwidth - gpwidth - xpad;
+
+			if (_vidBuff.Length < _vwidth * _vheight)
+				_vidBuff = new int[_vwidth * _vheight];
+
+			int rinc = (gppitch / 4) - gpwidth;
+			fixed (int* pdst_ = _vidBuff)
 			{
-				IntPtr src = IntPtr.Zero;
+				int* pdst = pdst_;
+				int* psrc = (int*)src;
 
-				Core.gpgx_get_video(out var gpwidth, out var gpheight, out var gppitch, ref src);
-
-				_vwidth = gpwidth;
-				_vheight = gpheight;
-
-				if (_settings.PadScreen320 && _vwidth == 256)
-					_vwidth = 320;
-
-				int xpad = (_vwidth - gpwidth) / 2;
-				int xpad2 = _vwidth - gpwidth - xpad;
-
-				if (_vidBuff.Length < _vwidth * _vheight)
-					_vidBuff = new int[_vwidth * _vheight];
-
-				int rinc = (gppitch / 4) - gpwidth;
-				fixed (int* pdst_ = _vidBuff)
+				for (int j = 0; j < gpheight; j++)
 				{
-					int* pdst = pdst_;
-					int* psrc = (int*)src;
-
-					for (int j = 0; j < gpheight; j++)
-					{
-						for (int i = 0; i < xpad; i++)
-							*pdst++ = unchecked((int)0xff000000);
-						for (int i = 0; i < gpwidth; i++)
-							*pdst++ = *psrc++;
-						for (int i = 0; i < xpad2; i++)
-							*pdst++ = unchecked((int)0xff000000);
-						psrc += rinc;
-					}
+					for (int i = 0; i < xpad; i++)
+						*pdst++ = unchecked((int)0xff000000);
+					for (int i = 0; i < gpwidth; i++)
+						*pdst++ = *psrc++;
+					for (int i = 0; i < xpad2; i++)
+						*pdst++ = unchecked((int)0xff000000);
+					psrc += rinc;
 				}
 			}
 		}

@@ -129,18 +129,18 @@ namespace BizHawk.Client.EmuHawk
 				return;
 			}
 
-			using ((_view = Emu.UpdateVDPViewContext()).EnterExit())
-			{
-				int* pal = (int*)_view.ColorCache;
-				DrawPalettes(pal);
-				DrawTiles();
-				ushort* vramNt = (ushort*)_view.VRAM;
-				byte* tiles = (byte*)_view.PatternCache;
-				DrawNameTable(_view.NTA, vramNt, tiles, pal, bmpViewNTA);
-				DrawNameTable(_view.NTB, vramNt, tiles, pal, bmpViewNTB);
-				DrawNameTable(_view.NTW, vramNt, tiles, pal, bmpViewNTW);
-				_view = null;
-			}
+			// using ((_view = Emu.UpdateVDPViewContext()).EnterExit())
+			// {
+			// 	int* pal = (int*)_view.ColorCache;
+			// 	DrawPalettes(pal);
+			// 	DrawTiles();
+			// 	ushort* vramNt = (ushort*)_view.VRAM;
+			// 	byte* tiles = (byte*)_view.PatternCache;
+			// 	DrawNameTable(_view.NTA, vramNt, tiles, pal, bmpViewNTA);
+			// 	DrawNameTable(_view.NTB, vramNt, tiles, pal, bmpViewNTB);
+			// 	DrawNameTable(_view.NTW, vramNt, tiles, pal, bmpViewNTW);
+			// 	_view = null;
+			// }
 		}
 
 		public override void Restart()

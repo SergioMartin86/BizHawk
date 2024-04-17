@@ -92,7 +92,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 		{
 			if (!_disposed)
 			{
-				_elf?.Dispose();
 				if (_cds != null)
 					foreach (var cd in _cds)
 						cd.Dispose();

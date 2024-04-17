@@ -13,8 +13,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 
 		private unsafe void SetMemoryDomains()
 		{
-			using (_elf.EnterExit())
-			{
 				var mm = new List<MemoryDomain>();
 				for (var i = LibGPGX.MIN_MEM_DOMAIN; i <= LibGPGX.MAX_MEM_DOMAIN; i++)
 				{
@@ -37,7 +35,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 							addr =>
 							{
 								if (addr is < 0 or > 0xFFFF) throw new ArgumentOutOfRangeException(paramName: nameof(addr), addr, message: "address out of range");
-								using (_elf.EnterExit())
 									return p![addr ^ 1];
 							},
 							(addr, val) =>
@@ -56,12 +53,9 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 							addr =>
 							{
 								if (addr is < 0 or > 0x7F) throw new ArgumentOutOfRangeException(paramName: nameof(addr), addr, message: "address out of range");
-								using (_elf.EnterExit())
-								{
 									var c = *(ushort*)&p![addr & ~1];
 									c = (ushort)(((c & 0x1C0) << 3) | ((c & 0x038) << 2) | ((c & 0x007) << 1));
 									return (byte)((addr & 1) != 0 ? c & 0xFF : c >> 8);
-								}
 							},
 							(addr, val) =>
 							{
@@ -72,11 +66,9 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 					}
 					else if (name.Contains("Z80"))
 					{
-						mm.Add(new MemoryDomainIntPtrMonitor(name, endian, area, size, true, 1, _elf));
 					}
 					else
 					{
-						mm.Add(new MemoryDomainIntPtrSwap16Monitor(name, endian, area, size, true, _elf));
 					}
 				}
 				var m68Bus = new MemoryDomainDelegate("M68K BUS", 0x1000000, MemoryDomain.Endian.Big,
@@ -114,11 +106,9 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 
 					mm.Add(s68Bus);
 				}
-				mm.Add(_elf.GetPagesDomain());
 
 				_memoryDomains = new MemoryDomainList(mm) { SystemBus = m68Bus };
 				((BasicServiceProvider) ServiceProvider).Register(_memoryDomains);
-			}
 		}
 	}
 }

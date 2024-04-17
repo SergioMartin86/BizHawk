@@ -45,7 +45,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 			Core.gpgx_get_audio(ref _nsamp, ref src);
 			if (src != IntPtr.Zero)
 			{
-				using (_elf.EnterExit())
 					Marshal.Copy(src, _samples, 0, _nsamp * 2);
 			}
 		}

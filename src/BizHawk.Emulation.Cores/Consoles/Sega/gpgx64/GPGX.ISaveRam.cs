@@ -15,7 +15,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 				return null;
 
 			byte[] ret = new byte[size];
-			using (_elf.EnterExit())
 				Marshal.Copy(area, ret, 0, size);
 			return ret;
 		}

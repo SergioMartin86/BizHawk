@@ -37,85 +37,72 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 				throw new InvalidOperationException("ROM too big!  Did you try to load a CD as a ROM?");
 			}
 
-			_elf = new WaterboxHost(new WaterboxOptions
+            
+			Console.WriteLine("GPGX: Trying to load libGPGX library");
+			var resolver = new DynamicLibraryImportResolver(
+				$"libGPGX{(OSTailoredCode.IsUnixHost ? ".so" : ".dll")}", hasLimitedLifetime: false);
+			Core = BizInvoker.GetInvoker<LibGPGX>(resolver, CallingConventionAdapters.Native);
+
+			_syncSettings = lp.SyncSettings ?? new GPGXSyncSettings();
+			_settings = lp.Settings ?? new GPGXSettings();
+
+			CoreComm = lp.Comm;
+
+			_romfile = lp.Roms.FirstOrDefault()?.RomData;
+
+			if (lp.Discs.Count > 0)
 			{
-				Path = PathUtils.DllDirectoryPath,
-				Filename = "gpgx.wbx",
-				SbrkHeapSizeKB = 512,
-				SealedHeapSizeKB = 4 * 1024,
-				InvisibleHeapSizeKB = 4 * 1024,
-				PlainHeapSizeKB = 48 * 1024,
-				MmapHeapSizeKB = 1 * 1024,
-				SkipCoreConsistencyCheck = lp.Comm.CorePreferences.HasFlag(CoreComm.CorePreferencesFlags.WaterboxCoreConsistencyCheck),
-				SkipMemoryConsistencyCheck = lp.Comm.CorePreferences.HasFlag(CoreComm.CorePreferencesFlags.WaterboxMemoryConsistencyCheck),
-			});
-
-			var callingConventionAdapter = CallingConventionAdapters.MakeWaterbox(new Delegate[]
-			{
-				LoadCallback, _inputCallback, ExecCallback, ReadCallback, WriteCallback,
-				CDCallback, cd_callback_handle,
-			}, _elf);
-
-			using (_elf.EnterExit())
-			{
-				Core = BizInvoker.GetInvoker<LibGPGX>(_elf, _elf, callingConventionAdapter);
-				_syncSettings = lp.SyncSettings ?? new GPGXSyncSettings();
-				_settings = lp.Settings ?? new GPGXSettings();
-
-				CoreComm = lp.Comm;
-
-				_romfile = lp.Roms.FirstOrDefault()?.RomData;
-
-				if (lp.Discs.Count > 0)
-				{
-					_cds = lp.Discs.Select(d => d.DiscData).ToArray();
-					_cdReaders = _cds.Select(c => new DiscSectorReader(c)).ToArray();
-					Core.gpgx_set_cdd_callback(cd_callback_handle);
-					DriveLightEnabled = true;
-				}
-
-				LibGPGX.INPUT_SYSTEM system_a = SystemForSystem(_syncSettings.ControlTypeLeft);
-				LibGPGX.INPUT_SYSTEM system_b = SystemForSystem(_syncSettings.ControlTypeRight);
-
-				var initResult = Core.gpgx_init(romextension, LoadCallback, _syncSettings.GetNativeSettings(lp.Game));
-
-				if (!initResult)
-					throw new Exception($"{nameof(Core.gpgx_init)}() failed");
-
-				{
-					int fpsnum = 60;
-					int fpsden = 1;
-					Core.gpgx_get_fps(ref fpsnum, ref fpsden);
-					VsyncNumerator = fpsnum;
-					VsyncDenominator = fpsden;
-					Region = VsyncNumerator / VsyncDenominator > 55 ? DisplayType.NTSC : DisplayType.PAL;
-				}
-
-				// when we call Seal, ANY pointer passed from managed code must be 0.
-				// this is so the initial state is clean
-				// the only two pointers set so far are LoadCallback, which the core zeroed itself,
-				// and CdCallback
-				Core.gpgx_set_cdd_callback(null);
-				_elf.Seal();
+				_cds = lp.Discs.Select(d => d.DiscData).ToArray();
+				_cdReaders = _cds.Select(c => new DiscSectorReader(c)).ToArray();
 				Core.gpgx_set_cdd_callback(cd_callback_handle);
-
-				SetControllerDefinition();
-
-				// pull the default video size from the core
-				UpdateVideo();
-
-				SetMemoryDomains();
-
-				Core.gpgx_set_input_callback(_inputCallback);
-
-				// process the non-init settings now
-				PutSettings(_settings);
-
-				KillMemCallbacks();
-
-				_tracer = new GPGXTraceBuffer(this, _memoryDomains, this);
-				(ServiceProvider as BasicServiceProvider).Register<ITraceable>(_tracer);
+				DriveLightEnabled = true;
 			}
+
+			LibGPGX.INPUT_SYSTEM system_a = SystemForSystem(_syncSettings.ControlTypeLeft);
+			LibGPGX.INPUT_SYSTEM system_b = SystemForSystem(_syncSettings.ControlTypeRight);
+
+            Console.WriteLine("GPGX: Initializing...");
+			var initResult = Core.gpgx_init(romextension, LoadCallback, _syncSettings.GetNativeSettings(lp.Game));
+            Console.WriteLine("GPGX: Initialization result: ", initResult);
+			if (!initResult)
+			{
+			    Console.WriteLine("GPGX: Initialization failed!");
+				throw new Exception($"{nameof(Core.gpgx_init)}() failed");
+			}
+
+			Console.WriteLine("GPGX: Initialization succeedd!: ");
+			{
+				int fpsnum = 60;
+				int fpsden = 1;
+				Core.gpgx_get_fps(ref fpsnum, ref fpsden);
+				VsyncNumerator = fpsnum;
+				VsyncDenominator = fpsden;
+				Region = VsyncNumerator / VsyncDenominator > 55 ? DisplayType.NTSC : DisplayType.PAL;
+			}
+
+			// when we call Seal, ANY pointer passed from managed code must be 0.
+			// this is so the initial state is clean
+			// the only two pointers set so far are LoadCallback, which the core zeroed itself,
+			// and CdCallback
+			Core.gpgx_set_cdd_callback(null);
+			Core.gpgx_set_cdd_callback(cd_callback_handle);
+
+			SetControllerDefinition();
+
+			// pull the default video size from the core
+			UpdateVideo();
+
+			SetMemoryDomains();
+
+			Core.gpgx_set_input_callback(_inputCallback);
+
+			// process the non-init settings now
+			PutSettings(_settings);
+
+			KillMemCallbacks();
+
+			_tracer = new GPGXTraceBuffer(this, _memoryDomains, this);
+			(ServiceProvider as BasicServiceProvider).Register<ITraceable>(_tracer);
 
 			_romfile = null;
 		}
@@ -143,8 +130,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 		}
 
 		private readonly LibGPGX Core;
-		private readonly WaterboxHost _elf;
-
 		private readonly Disc[] _cds;
 		private int _discIndex;
 		private readonly DiscSectorReader[] _cdReaders;
@@ -410,13 +395,13 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 			}
 		}
 
-		public VDPView UpdateVDPViewContext()
-		{
-			var v = new LibGPGX.VDPView();
-			Core.gpgx_get_vdp_view(v);
-			Core.gpgx_flush_vram(); // fully regenerate internal caches as needed
-			return new VDPView(v, _elf);
-		}
+		// public VDPView UpdateVDPViewContext()
+		// {
+		// 	var v = new LibGPGX.VDPView();
+		// 	Core.gpgx_get_vdp_view(v);
+		// 	Core.gpgx_flush_vram(); // fully regenerate internal caches as needed
+		// 	return new VDPView(v, Core);
+		// }
 		
 		public int AddDeepFreezeValue(int address, byte value)
 		{

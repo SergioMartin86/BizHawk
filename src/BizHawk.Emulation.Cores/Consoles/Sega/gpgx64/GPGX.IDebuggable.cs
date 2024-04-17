@@ -17,8 +17,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 			if (n > regs.Length)
 				throw new InvalidOperationException("A buffer overrun has occured!");
 			var ret = new Dictionary<string, RegisterValue>();
-			using (_elf.EnterExit())
-			{
 				for (int i = 0; i < n; i++)
 				{
 					// el hacko
@@ -29,7 +27,6 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 
 					ret[name] = new RegisterValue((ulong)regs[i].Value, size);
 				}
-			}
 
 			return ret;
 		}
