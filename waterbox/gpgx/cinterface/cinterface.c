@@ -15,6 +15,14 @@
 #include <vdp_render.h>
 #include <debug/cpuhook.h>
 
+#ifdef _MSC_VER
+#define EXPORT __declspec(dllexport)
+#elif __MINGW32__
+#define EXPORT __declspec(dllexport) __attribute__((force_align_arg_pointer))
+#else
+#define EXPORT __attribute__((force_align_arg_pointer))
+#endif
+
 struct config_t config;
 
 char GG_ROM[256] = "GG_ROM"; // game genie rom
@@ -80,7 +88,7 @@ static void update_viewport(void)
 	}
 }
 
- void gpgx_get_video(int *w, int *h, int *pitch, void **buffer)
+EXPORT void gpgx_get_video(int *w, int *h, int *pitch, void **buffer)
 {
 	if (w)
 		*w = vwidth;
@@ -92,7 +100,7 @@ static void update_viewport(void)
 		*buffer = bitmap.data;
 }
 
- void gpgx_get_audio(int *n, void **buffer)
+EXPORT void gpgx_get_audio(int *n, void **buffer)
 {
 	if (n)
 		*n = nsamples;
@@ -101,7 +109,7 @@ static void update_viewport(void)
 }
 
 // this is most certainly wrong for interlacing
- void gpgx_get_fps(int *num, int *den)
+EXPORT void gpgx_get_fps(int *num, int *den)
 {
 	if (vdp_pal)
 	{
@@ -131,12 +139,12 @@ void real_input_callback(void)
 		input_callback_cb();
 }
 
- void gpgx_set_input_callback( void (*fecb)(void))
+EXPORT void gpgx_set_input_callback( void (*fecb)(void))
 {
 	input_callback_cb = fecb;
 }
 
- void gpgx_set_cdd_callback( void (*cddcb)(int lba, void *dest, int audio))
+EXPORT  void gpgx_set_cdd_callback( void (*cddcb)(int lba, void *dest, int audio))
 {
 	cdd_readcallback = cddcb;
 }
@@ -154,7 +162,7 @@ int load_archive(const char *filename, unsigned char *buffer, int maxsize, char 
 	return load_archive_cb(filename, buffer, maxsize);
 }
 
- int gpgx_get_control(t_input *dest, int bytes)
+EXPORT int gpgx_get_control(t_input *dest, int bytes)
 {
 	if (bytes != sizeof(t_input))
 		return 0;
@@ -162,7 +170,7 @@ int load_archive(const char *filename, unsigned char *buffer, int maxsize, char 
 	return 1;
 }
 
- int gpgx_put_control(t_input *src, int bytes)
+EXPORT int gpgx_put_control(t_input *src, int bytes)
 {
 	if (bytes != sizeof(t_input))
 		return 0;
@@ -170,7 +178,7 @@ int load_archive(const char *filename, unsigned char *buffer, int maxsize, char 
 	return 1;
 }
 
- void gpgx_advance(void)
+EXPORT void gpgx_advance(void)
 {
 	if (system_hw == SYSTEM_MCD)
 		system_frame_scd(0);
@@ -188,7 +196,7 @@ int load_archive(const char *filename, unsigned char *buffer, int maxsize, char 
 	nsamples = audio_update(soundbuffer);
 }
 
- void gpgx_swap_disc(const toc_t* toc)
+EXPORT void gpgx_swap_disc(const toc_t* toc)
 {
 	if (system_hw == SYSTEM_MCD)
 	{
@@ -217,7 +225,7 @@ typedef struct
 extern uint8 ALIGNED_(4) bg_pattern_cache[0x80000];
 uint32_t pixel[0x100];
 
- void gpgx_get_vdp_view(vdpview_t *view)
+EXPORT void gpgx_get_vdp_view(vdpview_t *view)
 {
 	view->vram = vram;
 	view->patterncache = bg_pattern_cache;
@@ -239,7 +247,7 @@ int saveramsize(void)
 	return sram_get_actual_size();
 }
 
- void gpgx_clear_sram(void)
+EXPORT void gpgx_clear_sram(void)
 {
 	// clear sram
 	if (sram.on)
@@ -268,7 +276,7 @@ int saveramsize(void)
 // in order to present a single memory block to the frontend,
 // we copy the both the bram and the ebram to another area
 
- void* gpgx_get_sram(int *size)
+EXPORT void* gpgx_get_sram(int *size)
 {
 	if (sram.on)
 	{
@@ -300,7 +308,7 @@ int saveramsize(void)
 	}
 }
 
- int gpgx_put_sram(const uint8 *data, int size)
+EXPORT int gpgx_put_sram(const uint8 *data, int size)
 {
 	if (sram.on)
 	{
@@ -341,22 +349,22 @@ int saveramsize(void)
 	}
 }
 
- void gpgx_poke_cram(int addr, uint8 val)
+EXPORT void gpgx_poke_cram(int addr, uint8 val)
 {
 	write_cram_byte(addr, val);
 }
 
- void gpgx_poke_vram(int addr, uint8 val)
+EXPORT void gpgx_poke_vram(int addr, uint8 val)
 {
 	write_vram_byte(addr, val);
 }
 
- void gpgx_flush_vram(void)
+EXPORT void gpgx_flush_vram(void)
 {
 	flush_vram_cache();
 }
 
- const char* gpgx_get_memdom(int which, void **area, int *size)
+EXPORT const char* gpgx_get_memdom(int which, void **area, int *size)
 {
 	if (!area || !size)
 		return NULL;
@@ -461,20 +469,20 @@ int saveramsize(void)
 	}
 }
 
- void gpgx_write_m68k_bus(unsigned addr, unsigned data)
+EXPORT void gpgx_write_m68k_bus(unsigned addr, unsigned data)
 {
 	cpu_memory_map m = m68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.write8)
 		m.base[(addr & 0xffff) ^ 1] = data;
 }
 
- void gpgx_write_s68k_bus(unsigned addr, unsigned data)
+EXPORT void gpgx_write_s68k_bus(unsigned addr, unsigned data)
 {
 	cpu_memory_map m = s68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.write8)
 		m.base[(addr & 0xffff) ^ 1] = data;
 }
- unsigned gpgx_peek_m68k_bus(unsigned addr)
+EXPORT unsigned gpgx_peek_m68k_bus(unsigned addr)
 {
 	cpu_memory_map m = m68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.read8)
@@ -482,7 +490,7 @@ int saveramsize(void)
 	else
 		return 0xff;
 }
- unsigned gpgx_peek_s68k_bus(unsigned addr)
+EXPORT unsigned gpgx_peek_s68k_bus(unsigned addr)
 {
 	cpu_memory_map m = s68k.memory_map[addr >> 16 & 0xff];
 	if (m.base && !m.read8)
@@ -608,7 +616,7 @@ void bk_cpu_hook(hook_type_t type, int width, unsigned int address, unsigned int
 #endif // USE_BIZHAWK_CALLBACKS
 #endif // HOOK_CPU
 
- int gpgx_init(const char* feromextension,
+EXPORT int gpgx_init(const char* feromextension,
 	 int (*feload_archive_cb)(const char *filename, unsigned char *buffer, int maxsize),
 	struct InitSettings *settings)
 {
@@ -617,7 +625,7 @@ void bk_cpu_hook(hook_type_t type, int width, unsigned int address, unsigned int
 	force_sram = settings->ForceSram;
 
 	// Setting cpu hook
-	set_cpu_hook(bk_cpu_hook);
+	//set_cpu_hook(bk_cpu_hook);
 
 	memset(&bitmap, 0, sizeof(bitmap));
 
@@ -719,7 +727,7 @@ void bk_cpu_hook(hook_type_t type, int width, unsigned int address, unsigned int
 	return 1;
 }
 
-int gpgx_state_size()
+EXPORT int gpgx_state_size()
 {
   unsigned char* buffer = (unsigned char*)malloc(2 * 1024 * 1024);
   int size = state_save(buffer);
@@ -727,19 +735,19 @@ int gpgx_state_size()
   return size;
 }
 
-int gpgx_state_save(const char* buffer)
+EXPORT int gpgx_state_save(const char* buffer)
 {
 	return state_save(buffer);
 }
 
-int gpgx_state_load(const char* buffer)
+EXPORT int gpgx_state_load(const char* buffer)
 {
 	return state_load(buffer);
 }		
 
 #ifdef USE_RAM_DEEPFREEZE
 
- int gpgx_add_deepfreeze_list_entry(const int address, const uint8_t value)
+EXPORT int gpgx_add_deepfreeze_list_entry(const int address, const uint8_t value)
 {
     // Prevent overflowing
     if (deepfreeze_list_size == MAX_DEEP_FREEZE_ENTRIES) return -1;
@@ -751,14 +759,14 @@ int gpgx_state_load(const char* buffer)
 	return 0;
 }
 
- void gpgx_clear_deepfreeze_list()
+EXPORT void gpgx_clear_deepfreeze_list()
 {
 	deepfreeze_list_size = 0;
 }
 
 #endif
 
- void gpgx_reset(int hard)
+ EXPORT void gpgx_reset(int hard)
 {
 	if (hard)
 		system_reset();
@@ -766,19 +774,19 @@ int gpgx_state_load(const char* buffer)
 		gen_reset(0);
 }
 
- void gpgx_set_mem_callback( void (*read)(unsigned),  void (*write)(unsigned),  void (*exec)(unsigned))
+ EXPORT void gpgx_set_mem_callback( void (*read)(unsigned),  void (*write)(unsigned),  void (*exec)(unsigned))
 {
 	biz_readcb = read;
 	biz_writecb = write;
 	biz_execcb = exec;
 }
 
- void gpgx_set_cd_callback(CDCallback cdcallback)
+ EXPORT void gpgx_set_cd_callback(CDCallback cdcallback)
 {
 	biz_cdcb = cdcallback;
 }
 
- void gpgx_set_draw_mask(int mask)
+ EXPORT void gpgx_set_draw_mask(int mask)
 {
 	cinterface_render_bga = !!(mask & 1);
 	cinterface_render_bgb = !!(mask & 2);
@@ -791,12 +799,12 @@ int gpgx_state_load(const char* buffer)
 		color_update_m5(0x00, *(uint16 *)&cram[border << 1]);
 }
 
- void gpgx_set_sprite_limit_enabled(int enabled)
+ EXPORT void gpgx_set_sprite_limit_enabled(int enabled)
 {
 	config.no_sprite_limit = !enabled;
 }
 
- void gpgx_invalidate_pattern_cache(void)
+ EXPORT void gpgx_invalidate_pattern_cache(void)
 {
 	vdp_invalidate_full_cache();
 }
@@ -807,12 +815,12 @@ typedef struct
 	const char *name;
 } gpregister_t;
 
- int gpgx_getmaxnumregs(void)
+EXPORT int gpgx_getmaxnumregs(void)
 {
 	return 57;
 }
 
- int gpgx_getregs(gpregister_t *regs)
+EXPORT int gpgx_getregs(gpregister_t *regs)
 {
 	int ret = 0;
 

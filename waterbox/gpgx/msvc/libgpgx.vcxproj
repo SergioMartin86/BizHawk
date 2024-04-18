@@ -11,135 +11,135 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-  <ClInclude Include="..\Genesis-Plus-GX\core\debug\cpuhook.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\eq.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\opll.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym2413.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym2612.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\blip_buf.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym3438.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\psg.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\sound\sound.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\shared.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\hvc.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\io_ctrl.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\scrc32.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\z80\osd_cpu.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\z80\z80.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\macros.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\mem68k.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc_config.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc_impl.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc_config.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc_impl.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68ki_instruction_jump_table.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68ki_cycles.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kconf.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\s68kconf.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\s68ki_cycles.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kcpu.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68k.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kops.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\loadrom.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cd_cart.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cdd.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\gfx.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cdc.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\scd.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\pcm.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\graphic_board.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\gamepad.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\paddle.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\teamplayer.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\lightgun.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\sportspad.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\xe_1ap.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\activator.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\input.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\mouse.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\terebi_oekaki.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\membnk.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\memz80.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\types.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\system.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\osd.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\ggenie.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_i2c.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\svp\svp.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\svp\ssp16.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\sram.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\megasd.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\areplay.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\md_cart.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_93c.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_spi.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\sms_cart.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\state.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\vdp_render.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\genesis.h"  />
-  <ClInclude Include="..\Genesis-Plus-GX\core\vdp_ctrl.h"  />
-  <ClInclude Include="..\cinterface\callbacks.h"  />
+    <ClInclude Include="..\Genesis-Plus-GX\core\debug\cpuhook.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\eq.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\opll.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym2413.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym2612.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\blip_buf.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\ym3438.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\psg.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\sound\sound.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\shared.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\hvc.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\io_ctrl.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\scrc32.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\z80\osd_cpu.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\z80\z80.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\macros.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\mem68k.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc_config.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc_impl.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc_config.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc_impl.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68ki_instruction_jump_table.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68ki_cycles.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kconf.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\s68kconf.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\s68ki_cycles.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kcpu.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68k.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\m68k\m68kops.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\loadrom.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cd_cart.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cdd.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\gfx.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\cdc.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\scd.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cd_hw\pcm.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\graphic_board.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\gamepad.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\paddle.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\teamplayer.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\lightgun.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\sportspad.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\xe_1ap.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\activator.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\input.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\mouse.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\input_hw\terebi_oekaki.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\membnk.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\memz80.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\types.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\system.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\osd.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\ggenie.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_i2c.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\svp\svp.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\svp\ssp16.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\sram.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\megasd.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\areplay.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\md_cart.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_93c.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_spi.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\cart_hw\sms_cart.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\state.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\vdp_render.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\genesis.h" />
+    <ClInclude Include="..\Genesis-Plus-GX\core\vdp_ctrl.h" />
+    <ClInclude Include="..\cinterface\callbacks.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Genesis-Plus-GX\core\debug\cpuhook.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\sound.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym3438.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\opll.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\eq.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym2413.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\blip_buf.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\psg.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym2612.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\state.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\membnk.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\vdp_ctrl.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\z80\z80.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\io_ctrl.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\m68k\s68kcpu.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\m68k\m68kcpu.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\memz80.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\genesis.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\vdp_render.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\system.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cd_cart.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cdc.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\pcm.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\gfx.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\scd.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cdd.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\sportspad.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\activator.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\mouse.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\paddle.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\gamepad.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\input.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\terebi_oekaki.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\teamplayer.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\graphic_board.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\lightgun.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\xe_1ap.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\mem68k.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\svp\ssp16.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\svp\svp.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\areplay.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_spi.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\sram.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_93c.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\sms_cart.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_i2c.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\ggenie.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\md_cart.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\megasd.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\loadrom.c"  />
-    <ClCompile Include="..\Genesis-Plus-GX\core\scrc32.c"  />
-    <ClCompile Include="..\cinterface\cinterface.c"  />
-    <ClCompile Include="..\cinterface\cddImpl.c"  />
+    <ClCompile Include="..\Genesis-Plus-GX\core\debug\cpuhook.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\sound.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym3438.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\opll.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\eq.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym2413.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\blip_buf.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\psg.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\sound\ym2612.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\state.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\membnk.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\vdp_ctrl.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\z80\z80.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\io_ctrl.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\ntsc\sms_ntsc.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\ntsc\md_ntsc.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\m68k\s68kcpu.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\m68k\m68kcpu.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\memz80.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\genesis.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\vdp_render.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\system.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cd_cart.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cdc.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\pcm.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\gfx.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\scd.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cd_hw\cdd.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\sportspad.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\activator.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\mouse.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\paddle.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\gamepad.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\input.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\terebi_oekaki.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\teamplayer.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\graphic_board.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\lightgun.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\input_hw\xe_1ap.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\mem68k.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\svp\ssp16.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\svp\svp.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\areplay.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_spi.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\sram.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_93c.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\sms_cart.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\eeprom_i2c.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\ggenie.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\md_cart.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\megasd.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\loadrom.c" />
+    <ClCompile Include="..\Genesis-Plus-GX\core\scrc32.c" />
+    <ClCompile Include="..\cinterface\cinterface.c" />
+    <ClCompile Include="..\cinterface\cddImpl.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F07F76D3-08E6-4EBC-82F9-53FF90ABD9A9}</ProjectGuid>
@@ -171,10 +171,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp; ..\Genesis-Plus-Gx\core\sound; ..\Genesis-Plus-Gx\core\ntsc; ..\Genesis-Plus-Gx\core\cd_hw; ..\Genesis-Plus-Gx\core\debug;..\cinterface;;$(IncludePath)</IncludePath>
+    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)/../../../Assets/dll/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp; ..\Genesis-Plus-Gx\core\sound; ..\Genesis-Plus-Gx\core\ntsc; ..\Genesis-Plus-Gx\core\cd_hw; ..\Genesis-Plus-Gx\core\debug;..\cinterface;$(IncludePath)</IncludePath>
+    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)/../../../Assets/dll/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -182,7 +184,7 @@
       <Optimization>Disabled</Optimization>
       <DisableSpecificWarnings>4244;4800;4804;4996</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir)\..</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;HOOK_CPU;INLINE=static\ __inline__;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -201,7 +203,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <DisableSpecificWarnings>4244;4800;4804;4996</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir)\..</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;HOOK_CPU;INLINE=static\ __inline__;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -218,9 +220,9 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <Target Name="CopyToHawkAssets" AfterTargets="PostBuildEvent">
-    <Copy SourceFiles="$(OutDir)libGPGX.dll" DestinationFolder="$(ProjectDir)../../Assets/dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(OutDir)libGPGX.dll" DestinationFolder="$(ProjectDir)../../../Assets/dll" SkipUnchangedFiles="true" />
   </Target>
   <Target Name="CopyToHawkOutput" AfterTargets="PostBuildEvent" Condition=" Exists('$(ProjectDir)../../output/dll') ">
-    <Copy SourceFiles="$(OutDir)libGPGX.dll" DestinationFolder="$(ProjectDir)../../output/dll" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(OutDir)libGPGX.dll" DestinationFolder="$(ProjectDir)../../../output/dll" SkipUnchangedFiles="true" />
   </Target>
 </Project>

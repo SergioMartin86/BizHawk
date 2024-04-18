@@ -28,12 +28,22 @@ namespace BizHawk.Emulation.Cores.Consoles.Sega.gpgx
 		{
 			Core.gpgx_state_save(_saveStateBuff);
 			writer.Write(_saveStateBuff);
+
+			// other variables
+			writer.Write(IsLagFrame);
+			writer.Write(LagCount);
+			writer.Write(Frame);
 		}
 
 		public void LoadStateBinary(BinaryReader reader)
 		{
 			reader.Read(_saveStateBuff, 0, _saveStateBuff.Length);
 			Core.gpgx_state_load(_saveStateBuff);
+
+			// other variables
+			IsLagFrame = reader.ReadBoolean();
+			LagCount = reader.ReadInt32();
+			Frame = reader.ReadInt32();
 		}
 	}
 }
