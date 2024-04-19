@@ -3,11 +3,20 @@
 
 #include "types.h"
 
+#ifdef _MSC_VER
+#define EXPORT __declspec(dllexport)
+#elif __MINGW32__
+#define EXPORT __declspec(dllexport) __attribute__((force_align_arg_pointer))
+#else
+#define EXPORT __attribute__((force_align_arg_pointer))
+#endif
+
+
 typedef  void (*CDCallback)(int32 addr, int32 addrtype, int32 flags);
 
-extern  void (*biz_execcb)(unsigned addr);
-extern  void (*biz_readcb)(unsigned addr);
-extern  void (*biz_writecb)(unsigned addr);
+extern EXPORT void (*biz_execcb)(unsigned addr);
+extern EXPORT void (*biz_readcb)(unsigned addr);
+extern EXPORT void (*biz_writecb)(unsigned addr);
 extern CDCallback biz_cdcb;
 extern unsigned biz_lastpc;
 

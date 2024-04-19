@@ -5,6 +5,7 @@
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
+int __builtin_expect(int a, int b) { return a != b; }
 #endif
 
 #include <shared.h>
@@ -14,14 +15,6 @@
 #include <eeprom_i2c.h>
 #include <vdp_render.h>
 #include <debug/cpuhook.h>
-
-#ifdef _MSC_VER
-#define EXPORT __declspec(dllexport)
-#elif __MINGW32__
-#define EXPORT __declspec(dllexport) __attribute__((force_align_arg_pointer))
-#else
-#define EXPORT __attribute__((force_align_arg_pointer))
-#endif
 
 struct config_t config;
 
@@ -61,9 +54,9 @@ static uint8_t brm_format[0x40] =
 	0x52,0x41,0x4d,0x5f,0x43,0x41,0x52,0x54,0x52,0x49,0x44,0x47,0x45,0x5f,0x5f,0x5f
 };
 
- void (*biz_execcb)(unsigned addr);
- void (*biz_readcb)(unsigned addr);
- void (*biz_writecb)(unsigned addr);
+EXPORT void (*biz_execcb)(unsigned addr);
+EXPORT void (*biz_readcb)(unsigned addr);
+EXPORT void (*biz_writecb)(unsigned addr);
 CDCallback biz_cdcb = NULL;
 unsigned biz_lastpc = 0;
  void (*cdd_readcallback)(int lba, void *dest, int audio);
@@ -531,6 +524,8 @@ struct InitSettings
 	uint8_t SpritesAlwaysOnTop;
 };
 
+int cdd_context_save(uint8* state) { return 0; }
+int cdd_context_load(uint8* state) { return 0; }
 
 #ifdef HOOK_CPU
 #ifdef USE_BIZHAWK_CALLBACKS
@@ -623,10 +618,6 @@ EXPORT int gpgx_init(const char* feromextension,
 	printf("Initializing GPGX native...");
 
 	force_sram = settings->ForceSram;
-
-	// Setting cpu hook
-	//set_cpu_hook(bk_cpu_hook);
-
 	memset(&bitmap, 0, sizeof(bitmap));
 
 	strncpy(romextension, feromextension, 3);
@@ -779,11 +770,13 @@ EXPORT void gpgx_clear_deepfreeze_list()
 	biz_readcb = read;
 	biz_writecb = write;
 	biz_execcb = exec;
+	set_cpu_hook((read || write || exec || biz_cdcb) ? bk_cpu_hook : NULL);
 }
 
  EXPORT void gpgx_set_cd_callback(CDCallback cdcallback)
 {
 	biz_cdcb = cdcallback;
+	set_cpu_hook((biz_readcb || biz_writecb || biz_execcb || biz_cdcb) ? bk_cpu_hook : NULL);
 }
 
  EXPORT void gpgx_set_draw_mask(int mask)

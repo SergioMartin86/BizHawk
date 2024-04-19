@@ -23,7 +23,6 @@
     <ClInclude Include="..\Genesis-Plus-GX\core\shared.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\hvc.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\io_ctrl.h" />
-    <ClInclude Include="..\Genesis-Plus-GX\core\scrc32.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\z80\osd_cpu.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\z80\z80.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\macros.h" />
@@ -81,6 +80,8 @@
     <ClInclude Include="..\Genesis-Plus-GX\core\genesis.h" />
     <ClInclude Include="..\Genesis-Plus-GX\core\vdp_ctrl.h" />
     <ClInclude Include="..\cinterface\callbacks.h" />
+    <ClInclude Include="..\util\osd.h" />
+    <ClInclude Include="..\util\scrc32.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
@@ -137,9 +138,9 @@
     <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\md_cart.c" />
     <ClCompile Include="..\Genesis-Plus-GX\core\cart_hw\megasd.c" />
     <ClCompile Include="..\Genesis-Plus-GX\core\loadrom.c" />
-    <ClCompile Include="..\Genesis-Plus-GX\core\scrc32.c" />
     <ClCompile Include="..\cinterface\cinterface.c" />
     <ClCompile Include="..\cinterface\cddImpl.c" />
+    <ClCompile Include="..\util\scrc32.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F07F76D3-08E6-4EBC-82F9-53FF90ABD9A9}</ProjectGuid>
@@ -171,11 +172,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;;$(IncludePath)</IncludePath>
+    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;..\util;;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)/../../../Assets/dll/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;$(IncludePath)</IncludePath>
+    <IncludePath>..\Genesis-Plus-Gx\core;..\Genesis-Plus-Gx\core\m68k;..\Genesis-Plus-Gx\core\z80;..\Genesis-Plus-Gx\core\input_hw;cart_hw;..\Genesis-Plus-Gx\core\cart_hw;..\Genesis-Plus-Gx\core\cart_hw\svp;..\Genesis-Plus-Gx\core\sound;..\Genesis-Plus-Gx\core\ntsc;..\Genesis-Plus-Gx\core\cd_hw;cd_hw;..\Genesis-Plus-Gx\core\debug;..\cinterface;..\util;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)/../../../Assets/dll/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -184,7 +185,7 @@
       <Optimization>Disabled</Optimization>
       <DisableSpecificWarnings>4244;4800;4804;4996</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir)\..</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;HOOK_CPU</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -203,7 +204,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <DisableSpecificWarnings>4244;4800;4804;4996</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(ProjectDir)\..</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);USE_BIZHAWK_CALLBACKS;HAVE_YM3438_CORE;HAVE_OPLL_CORE;USE_RAM_DEEPFREEZE;LSB_FIRST;USE_32BPP_RENDERING;INLINE=static inline;HOOK_CPU</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
