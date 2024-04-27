@@ -16,5 +16,5 @@ jobs:
       #with:
       #  submodules: recursive
     - name: Getting musl
-      run: git submodule init waterbox/musl
+      run: git submodule init waterbox/musl;
            git submodule update waterbox/musl
