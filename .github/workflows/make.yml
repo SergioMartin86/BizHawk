@@ -18,3 +18,10 @@ jobs:
     - name: Getting musl
       run: git submodule init waterbox/musl;
            git submodule update waterbox/musl
+    - name: Building musl
+      working-directory: ./waterbox/musl
+      env:
+        CC: clang
+        CXX: clang++
+      run: ./wbox_configure.sh;
+           ./wbox_build.sh;
