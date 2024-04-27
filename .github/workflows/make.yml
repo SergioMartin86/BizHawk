@@ -13,10 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: recursive
-    - name: Create build directory
-      run: mkdir build
+      #with:
+      #  submodules: recursive
     - name: Updating pat packages
       run: sudo apt update
     - name: Installing apt packages
