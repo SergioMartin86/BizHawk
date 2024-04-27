@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      #with:
-      #  submodules: recursive
+      with:
+       submodules: recursive
     - name: Installing clang 18
       run: wget https://apt.llvm.org/llvm.sh;
            chmod u+x llvm.sh;
@@ -48,3 +48,15 @@ jobs:
         CC: clang-18
         CXX: clang++-18
       run: ./do-everything.sh
+    - name: Building nyma
+      working-directory: ./waterbox/nyma
+      env:
+        CC: clang-18
+        CXX: clang++-18
+      run: ./build-and-install-zlib.sh
+    - name: Building all waterboxed cores
+      working-directory: ./waterbox
+      env:
+        CC: clang-18
+        CXX: clang++-18
+      run: INCLUDE_MAME=1 ./make-all-cores.sh
