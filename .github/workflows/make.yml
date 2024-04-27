@@ -25,3 +25,21 @@ jobs:
         CXX: clang++
       run: ./wbox_configure.sh;
            ./wbox_build.sh;
+    - name: Building emulibc
+      working-directory: ./waterbox/emulibc
+      env:
+        CC: clang
+        CXX: clang++
+      run: make
+    - name: Building libco
+      working-directory: ./waterbox/libco
+      env:
+        CC: clang
+        CXX: clang++
+      run: make
+    - name: Building libcxx
+      working-directory: ./waterbox/libcxx
+      env:
+        CC: clang
+        CXX: clang++
+      run: ./do-everything.sh
