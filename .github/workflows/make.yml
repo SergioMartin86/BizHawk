@@ -18,4 +18,4 @@ jobs:
     - name: Updating pat packages
       run: sudo apt update
     - name: Installing apt packages
-      run: sudo apt install clang-17
+      run: sudo apt install clang-16
