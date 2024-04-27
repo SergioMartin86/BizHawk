@@ -17,9 +17,9 @@ jobs:
       #  submodules: recursive
     - name: Installing clang 18
       run: wget https://apt.llvm.org/llvm.sh;
-           chmod u+x llvm.sh
-           sudo ./llvm.sh 18
-           clang-18 --version
+           chmod u+x llvm.sh;
+           sudo ./llvm.sh 18;
+           clang-18 --version;
     - name: Getting musl
       run: git submodule init waterbox/musl;
            git submodule update waterbox/musl
