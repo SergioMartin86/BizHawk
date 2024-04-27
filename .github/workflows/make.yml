@@ -15,7 +15,6 @@ jobs:
     - uses: actions/checkout@v4
       #with:
       #  submodules: recursive
-    - name: Updating apt packages
-      run: sudo apt update
-    - name: Installing apt packages
-      run: sudo apt install clang-15
+    - name: Getting musl
+      run: git submodule init waterbox/musl
+           git submodule update waterbox/musl
