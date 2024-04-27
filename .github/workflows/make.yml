@@ -1,0 +1,24 @@
+name: Build and Run Tests
+
+on:
+  pull_request:
+    branches: [ "master" ]
+  push:
+    branches: [ "master" ]
+    branches: [ "CI" ]
+
+jobs:
+
+  # Build waterbox and cores
+  build-waterbox:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Create build directory
+      run: mkdir build
+    - name: Updating pat packages
+      run: sudo apt update
+    - name: Installing apt packages
+      run: sudo apt install clang-17
