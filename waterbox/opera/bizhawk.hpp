@@ -12,44 +12,44 @@
 
 struct gamePad_t
 {
-	int up;
-	int down;
-	int left;
-	int right;
-	int start;
-	int select;
-	int buttonA;
-	int buttonB;
-	int buttonX;
-	int buttonY;
-	int buttonL;
-	int buttonR;
+	bool up;
+	bool down;
+	bool left;
+	bool right;
+	bool start;
+	bool select;
+	bool buttonA;
+	bool buttonB;
+	bool buttonX;
+	bool buttonY;
+	bool buttonL;
+	bool buttonR;
 };
 
 struct mouse_t
 {
 	int dX;
 	int dY;
-	int leftButton;
-	int middleButton;
-	int rightButton;
-	int fourthButton;
+	bool leftButton;
+	bool middleButton;
+	bool rightButton;
+	bool fourthButton;
 };
 
 struct flightStick_t
 {
-	int up;
-	int down;
-	int left;
-	int right;
-	int fire;
-	int buttonA;
-	int buttonB;
-	int buttonC;
-	int buttonX;
-	int buttonP;
-	int leftTrigger;
-	int rightTrigger;
+	bool up;
+	bool down;
+	bool left;
+	bool right;
+	bool fire;
+	bool buttonA;
+	bool buttonB;
+	bool buttonC;
+	bool buttonX;
+	bool buttonP;
+	bool leftTrigger;
+	bool rightTrigger;
 	int horizontalAxis;
 	int verticalAxis;
 	int altitudeAxis;
@@ -57,22 +57,22 @@ struct flightStick_t
 
 struct lightGun_t
 {
- int trigger;
- int select;
- int reload;
- int isOffScreen;
+ bool trigger;
+ bool select;
+ bool reload;
+ bool isOffScreen;
  int screenX;
  int screenY;
 };
 
 struct arcadeLightGun_t
 {
- int trigger;
- int select;
-	int start;
- int reload;
-	int auxA;
- int isOffScreen;
+ bool trigger;
+ bool select;
+	bool start;
+ bool reload;
+	bool auxA;
+ bool isOffScreen;
  int screenX;
  int screenY;
 };
@@ -81,11 +81,11 @@ struct OrbatakTrackball_t
 {
 	int dX;
 	int dY;
-	int startP1;
-	int startP2;
-	int coinP1;
-	int coinP2;
-	int service;
+	bool startP1;
+	bool startP2;
+	bool coinP1;
+	bool coinP2;
+	bool service;
 };
 
 struct controllerData_t
@@ -103,7 +103,7 @@ typedef struct
 	FrameInfo base;
 	controllerData_t port1;
 	controllerData_t port2;
-	int isReset;
+	bool isReset;
 } MyFrameInfo;
 
 struct MemoryAreas 

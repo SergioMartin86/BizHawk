@@ -362,6 +362,7 @@ ECL_EXPORT void opera_get_video(int& w, int& h, int& pitch, uint8_t*& buffer)
 ECL_EXPORT void FrameAdvance(MyFrameInfo* f)
 {
   // Setting inputs
+  printf("[Waterbox Side]: Button A - %s\n", f->port1.gamePad.buttonA ? "True" : "False");
   _port1Value = f->port1;
   _port2Value = f->port2;
 
