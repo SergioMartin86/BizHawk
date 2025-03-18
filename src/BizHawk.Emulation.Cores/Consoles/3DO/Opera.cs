@@ -244,7 +244,7 @@ namespace BizHawk.Emulation.Consoles._3DO
 			fi.port1 = ProcessController(1, _syncSettings.Controller1Type, controller);
 			fi.port2 = ProcessController(2, _syncSettings.Controller2Type, controller);
 
-			Console.WriteLine(fi.port1.gamepad.buttonA);
+			Console.WriteLine($"[Bizhawk Side]: Button A - {fi.port1.gamepad.buttonA}");
 			// Game reset
 			fi.isReset = controller.IsPressed("Reset");
 
