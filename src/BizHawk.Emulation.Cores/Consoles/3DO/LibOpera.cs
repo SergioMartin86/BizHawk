@@ -57,18 +57,18 @@ namespace BizHawk.Emulation.Consoles._3DO
 		[StructLayout(LayoutKind.Sequential)]
 		public struct GamepadInputs
 		{
-			public int up;
-			public int down;
-			public int left;
-			public int right;
-			public int start;
-			public int select;
-			public int buttonA;
-			public int buttonB;
-			public int buttonX;
-			public int buttonY;
-			public int buttonL;
-			public int buttonR;
+			public bool up;
+			public bool down;
+			public bool left;
+			public bool right;
+			public bool start;
+			public bool select;
+			public bool buttonA;
+			public bool buttonB;
+			public bool buttonX;
+			public bool buttonY;
+			public bool buttonL;
+			public bool buttonR;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -76,27 +76,27 @@ namespace BizHawk.Emulation.Consoles._3DO
 		{
 			public int dX;
 			public int dY;
-			public int leftButton;
-			public int middleButton;
-			public int rightButton;
-			public int fourthButton;
+			public bool leftButton;
+			public bool middleButton;
+			public bool rightButton;
+			public bool fourthButton;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FlightStickInputs
 		{
-			public int up;
-			public int down;
-			public int left;
-			public int right;
-			public int fire;
-			public int buttonA;
-			public int buttonB;
-			public int buttonC;
-			public int buttonX;
-			public int buttonP;
-			public int leftTrigger;
-			public int rightTrigger;
+			public bool up;
+			public bool down;
+			public bool left;
+			public bool right;
+			public bool fire;
+			public bool buttonA;
+			public bool buttonB;
+			public bool buttonC;
+			public bool buttonX;
+			public bool buttonP;
+			public bool leftTrigger;
+			public bool rightTrigger;
 			public int horizontalAxis;
 			public int verticalAxis;
 			public int altitudeAxis;
@@ -105,10 +105,10 @@ namespace BizHawk.Emulation.Consoles._3DO
 		[StructLayout(LayoutKind.Sequential)]
 		public struct LightGunInputs
 		{
-			public int trigger;
-			public int select;
-			public int reload;
-			public int isOffScreen;
+			public bool trigger;
+			public bool select;
+			public bool reload;
+			public bool isOffScreen;
 			public int screenX;
 			public int screenY;
 		}
@@ -116,12 +116,12 @@ namespace BizHawk.Emulation.Consoles._3DO
 		[StructLayout(LayoutKind.Sequential)]
 		public struct ArcadeLightGunInputs
 		{
-			public int trigger;
-			public int select;
-			public int start;
-			public int reload;
-			public int auxA;
-			public int isOffScreen;
+			public bool trigger;
+			public bool select;
+			public bool start;
+			public bool reload;
+			public bool auxA;
+			public bool isOffScreen;
 			public int screenX;
 			public int screenY;
 		}
@@ -131,11 +131,11 @@ namespace BizHawk.Emulation.Consoles._3DO
 		{
 			public int dX;
 			public int dY;
-			public int startP1;
-			public int startP2;
-			public int coinP1;
-			public int coinP2;
-			public int service;
+			public bool startP1;
+			public bool startP2;
+			public bool coinP1;
+			public bool coinP2;
+			public bool service;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -154,7 +154,7 @@ namespace BizHawk.Emulation.Consoles._3DO
 		{
 			public GameInput port1;
 			public GameInput port2;
-			public int isReset = 0;
+			public bool isReset = false;
 		}
 	}
 }

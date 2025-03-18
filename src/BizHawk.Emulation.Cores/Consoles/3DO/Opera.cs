@@ -244,8 +244,9 @@ namespace BizHawk.Emulation.Consoles._3DO
 			fi.port1 = ProcessController(1, _syncSettings.Controller1Type, controller);
 			fi.port2 = ProcessController(2, _syncSettings.Controller2Type, controller);
 
+			Console.WriteLine(fi.port1.gamepad.buttonA);
 			// Game reset
-			if (controller.IsPressed("Reset")) fi.isReset = 1;
+			fi.isReset = controller.IsPressed("Reset");
 
 			return fi;
 		}
@@ -257,73 +258,73 @@ namespace BizHawk.Emulation.Consoles._3DO
 			switch (type)
 			{
 				case ControllerType.Gamepad:
-					gameInput.gamepad.up = controller.IsPressed($"P{port} {JoystickButtons.Up}") ? 1 : 0;
-					gameInput.gamepad.down = controller.IsPressed($"P{port} {JoystickButtons.Down}") ? 1 : 0;
-					gameInput.gamepad.left = controller.IsPressed($"P{port} {JoystickButtons.Left}") ? 1 : 0;
-					gameInput.gamepad.right = controller.IsPressed($"P{port} {JoystickButtons.Right}") ? 1 : 0;
-					gameInput.gamepad.select = controller.IsPressed($"P{port} {JoystickButtons.Select}") ? 1 : 0;
-					gameInput.gamepad.start = controller.IsPressed($"P{port} {JoystickButtons.Start}") ? 1 : 0;
-					gameInput.gamepad.buttonA = controller.IsPressed($"P{port} {JoystickButtons.ButtonA}") ? 1 : 0;
-					gameInput.gamepad.buttonB = controller.IsPressed($"P{port} {JoystickButtons.ButtonB}") ? 1 : 0;
-					gameInput.gamepad.buttonX = controller.IsPressed($"P{port} {JoystickButtons.ButtonX}") ? 1 : 0;
-					gameInput.gamepad.buttonY = controller.IsPressed($"P{port} {JoystickButtons.ButtonY}") ? 1 : 0;
-					gameInput.gamepad.buttonL = controller.IsPressed($"P{port} {JoystickButtons.ButtonL}") ? 1 : 0;
-					gameInput.gamepad.buttonR = controller.IsPressed($"P{port} {JoystickButtons.ButtonR}") ? 1 : 0;
+					gameInput.gamepad.up = controller.IsPressed($"P{port} {JoystickButtons.Up}");
+					gameInput.gamepad.down = controller.IsPressed($"P{port} {JoystickButtons.Down}");
+					gameInput.gamepad.left = controller.IsPressed($"P{port} {JoystickButtons.Left}");
+					gameInput.gamepad.right = controller.IsPressed($"P{port} {JoystickButtons.Right}");
+					gameInput.gamepad.select = controller.IsPressed($"P{port} {JoystickButtons.Select}");
+					gameInput.gamepad.start = controller.IsPressed($"P{port} {JoystickButtons.Start}");
+					gameInput.gamepad.buttonA = controller.IsPressed($"P{port} {JoystickButtons.ButtonA}");
+					gameInput.gamepad.buttonB = controller.IsPressed($"P{port} {JoystickButtons.ButtonB}");
+					gameInput.gamepad.buttonX = controller.IsPressed($"P{port} {JoystickButtons.ButtonX}");
+					gameInput.gamepad.buttonY = controller.IsPressed($"P{port} {JoystickButtons.ButtonY}");
+					gameInput.gamepad.buttonL = controller.IsPressed($"P{port} {JoystickButtons.ButtonL}");
+					gameInput.gamepad.buttonR = controller.IsPressed($"P{port} {JoystickButtons.ButtonR}");
 					break;
 
 				case ControllerType.Mouse:
 					gameInput.mouse.dX = controller.AxisValue($"P{port} {Inputs.MouseX}");
 					gameInput.mouse.dY = controller.AxisValue($"P{port} {Inputs.MouseY}");
-					gameInput.mouse.leftButton = controller.IsPressed($"P{port} {Inputs.MouseLeftButton}") ? 1 : 0;
-					gameInput.mouse.middleButton = controller.IsPressed($"P{port} {Inputs.MouseMiddleButton}") ? 1 : 0;
-					gameInput.mouse.rightButton = controller.IsPressed($"P{port} {Inputs.MouseRightButton}") ? 1 : 0;
-					gameInput.mouse.fourthButton = controller.IsPressed($"P{port} {Inputs.MouseFourthButton}") ? 1 : 0;
+					gameInput.mouse.leftButton = controller.IsPressed($"P{port} {Inputs.MouseLeftButton}");
+					gameInput.mouse.middleButton = controller.IsPressed($"P{port} {Inputs.MouseMiddleButton}");
+					gameInput.mouse.rightButton = controller.IsPressed($"P{port} {Inputs.MouseRightButton}");
+					gameInput.mouse.fourthButton = controller.IsPressed($"P{port} {Inputs.MouseFourthButton}");
 					break;
 
 				case ControllerType.FlightStick:
-					gameInput.flightStick.up = controller.IsPressed($"P{port} {FlightStickButtons.Up}") ? 1 : 0;
-					gameInput.flightStick.down = controller.IsPressed($"P{port} {FlightStickButtons.Down}") ? 1 : 0;
-					gameInput.flightStick.left = controller.IsPressed($"P{port} {FlightStickButtons.Left}") ? 1 : 0;
-					gameInput.flightStick.right = controller.IsPressed($"P{port} {FlightStickButtons.Right}") ? 1 : 0;
-					gameInput.flightStick.fire = controller.IsPressed($"P{port} {FlightStickButtons.Fire}") ? 1 : 0;
-					gameInput.flightStick.buttonA = controller.IsPressed($"P{port} {FlightStickButtons.ButtonA}") ? 1 : 0;
-					gameInput.flightStick.buttonB = controller.IsPressed($"P{port} {FlightStickButtons.ButtonB}") ? 1 : 0;
-					gameInput.flightStick.buttonC = controller.IsPressed($"P{port} {FlightStickButtons.ButtonC}") ? 1 : 0;
-					gameInput.flightStick.buttonX = controller.IsPressed($"P{port} {FlightStickButtons.ButtonX}") ? 1 : 0;
-					gameInput.flightStick.buttonP = controller.IsPressed($"P{port} {FlightStickButtons.ButtonP}") ? 1 : 0;
-					gameInput.flightStick.leftTrigger = controller.IsPressed($"P{port} {FlightStickButtons.LeftTrigger}") ? 1 : 0;
-					gameInput.flightStick.rightTrigger = controller.IsPressed($"P{port} {FlightStickButtons.RightTrigger}") ? 1 : 0;
+					gameInput.flightStick.up = controller.IsPressed($"P{port} {FlightStickButtons.Up}");
+					gameInput.flightStick.down = controller.IsPressed($"P{port} {FlightStickButtons.Down}");
+					gameInput.flightStick.left = controller.IsPressed($"P{port} {FlightStickButtons.Left}");
+					gameInput.flightStick.right = controller.IsPressed($"P{port} {FlightStickButtons.Right}");
+					gameInput.flightStick.fire = controller.IsPressed($"P{port} {FlightStickButtons.Fire}");
+					gameInput.flightStick.buttonA = controller.IsPressed($"P{port} {FlightStickButtons.ButtonA}");
+					gameInput.flightStick.buttonB = controller.IsPressed($"P{port} {FlightStickButtons.ButtonB}");
+					gameInput.flightStick.buttonC = controller.IsPressed($"P{port} {FlightStickButtons.ButtonC}");
+					gameInput.flightStick.buttonX = controller.IsPressed($"P{port} {FlightStickButtons.ButtonX}");
+					gameInput.flightStick.buttonP = controller.IsPressed($"P{port} {FlightStickButtons.ButtonP}");
+					gameInput.flightStick.leftTrigger = controller.IsPressed($"P{port} {FlightStickButtons.LeftTrigger}");
+					gameInput.flightStick.rightTrigger = controller.IsPressed($"P{port} {FlightStickButtons.RightTrigger}");
 					gameInput.flightStick.horizontalAxis = controller.AxisValue($"P{port} {Inputs.FlighStickHorizontalAxis}");
 					gameInput.flightStick.verticalAxis = controller.AxisValue($"P{port} {Inputs.FlighStickVerticalAxis}");
 					gameInput.flightStick.altitudeAxis = controller.AxisValue($"P{port} {Inputs.FlighStickAltitudeAxis}");
 					break;
 
 				case ControllerType.LightGun:
-					gameInput.lightGun.trigger = controller.IsPressed($"P{port} {LightGunButtons.Trigger}") ? 1 : 0;
-					gameInput.lightGun.select = controller.IsPressed($"P{port} {LightGunButtons.Select}") ? 1 : 0;
-					gameInput.lightGun.reload = controller.IsPressed($"P{port} {LightGunButtons.Reload}") ? 1 : 0;
-					gameInput.lightGun.isOffScreen = controller.IsPressed($"P{port} {LightGunButtons.IsOffScreen}") ? 1 : 0;
+					gameInput.lightGun.trigger = controller.IsPressed($"P{port} {LightGunButtons.Trigger}");
+					gameInput.lightGun.select = controller.IsPressed($"P{port} {LightGunButtons.Select}");
+					gameInput.lightGun.reload = controller.IsPressed($"P{port} {LightGunButtons.Reload}");
+					gameInput.lightGun.isOffScreen = controller.IsPressed($"P{port} {LightGunButtons.IsOffScreen}");
 					gameInput.lightGun.screenX = controller.AxisValue($"P{port} {Inputs.LightGunScreenX}");
 					gameInput.lightGun.screenY = controller.AxisValue($"P{port} {Inputs.LightGunScreenY}");
 					break;
 
 				case ControllerType.ArcadeLightGun:
-					gameInput.arcadeLightGun.trigger = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Trigger}") ? 1 : 0;
-					gameInput.arcadeLightGun.select = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Select}") ? 1 : 0;
-					gameInput.arcadeLightGun.start = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Start}") ? 1 : 0;
-					gameInput.arcadeLightGun.reload = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Reload}") ? 1 : 0;
-					gameInput.arcadeLightGun.auxA = controller.IsPressed($"P{port} {ArcadeLightGunButtons.AuxA}") ? 1 : 0;
-					gameInput.arcadeLightGun.isOffScreen = controller.IsPressed($"P{port} {ArcadeLightGunButtons.IsOffScreen}") ? 1 : 0;
+					gameInput.arcadeLightGun.trigger = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Trigger}");
+					gameInput.arcadeLightGun.select = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Select}");
+					gameInput.arcadeLightGun.start = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Start}");
+					gameInput.arcadeLightGun.reload = controller.IsPressed($"P{port} {ArcadeLightGunButtons.Reload}");
+					gameInput.arcadeLightGun.auxA = controller.IsPressed($"P{port} {ArcadeLightGunButtons.AuxA}");
+					gameInput.arcadeLightGun.isOffScreen = controller.IsPressed($"P{port} {ArcadeLightGunButtons.IsOffScreen}");
 					gameInput.arcadeLightGun.screenX = controller.AxisValue($"P{port} {Inputs.LightGunScreenX}");
 					gameInput.arcadeLightGun.screenY = controller.AxisValue($"P{port} {Inputs.LightGunScreenY}");
 					break;
 
 				case ControllerType.OrbatakTrackball:
-					gameInput.orbatakTrackball.startP1 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.StartP1}") ? 1 : 0;
-					gameInput.orbatakTrackball.startP2 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.StartP2}") ? 1 : 0;
-					gameInput.orbatakTrackball.coinP1 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.CoinP1}") ? 1 : 0;
-					gameInput.orbatakTrackball.coinP2 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.CoinP2}") ? 1 : 0;
-					gameInput.orbatakTrackball.service = controller.IsPressed($"P{port} {OrbatakTrackballButtons.Service}") ? 1 : 0;
+					gameInput.orbatakTrackball.startP1 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.StartP1}");
+					gameInput.orbatakTrackball.startP2 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.StartP2}");
+					gameInput.orbatakTrackball.coinP1 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.CoinP1}");
+					gameInput.orbatakTrackball.coinP2 = controller.IsPressed($"P{port} {OrbatakTrackballButtons.CoinP2}");
+					gameInput.orbatakTrackball.service = controller.IsPressed($"P{port} {OrbatakTrackballButtons.Service}");
 					gameInput.orbatakTrackball.dX = controller.AxisValue($"P{port} {Inputs.TrackballPosX}");
 					gameInput.orbatakTrackball.dY = controller.AxisValue($"P{port} {Inputs.TrackballPosY}");
 					break;
