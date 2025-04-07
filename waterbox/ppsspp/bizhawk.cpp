@@ -3,17 +3,9 @@
 #include <string>
 #include <libretro.h>
 #include <functional>
-#include <jaffarCommon/dethreader.hpp>
 #include <jaffarCommon/file.hpp>
 
-// State for the dethreader runtime
-__JAFFAR_COMMON_DETHREADER_STATE
-
-// Memory file directory
-jaffarCommon::file::MemoryFileDirectory _memFileDirectory;
-
-// Flag to indicate the game was correctly loaded
-bool _loadResult;
+std::string _cdImageFilePath = "__CDROM_PATH.iso";
 
 // Flag to indicate whether the nvram changed
 int _nvramChanged;
@@ -23,16 +15,6 @@ gamePad_t _inputData;
 
 // flag to indicate whether the inputs were polled
 int _inputPortsRead; 
-
-// Coroutines: they allow us to jump in and out the emu driver
-cothread_t _emuDriverCoroutine;
-cothread_t _driverCoroutine;
-
-// This flag inficates whether us jumping into the emu driver corresponds to an advance state request
-bool _advanceState = true;
-
-// Where the rom is stored -- will be removed when using bk's CD interface
-std::string _romFilePath;
 
 // Audio state
 #define _MAX_SAMPLES 4096
@@ -61,60 +43,6 @@ extern "C"
   RETRO_API size_t retro_serialize_size(void);
   RETRO_API bool retro_serialize(void *data, size_t size);
   RETRO_API bool retro_unserialize(const void *data, size_t size);
-}
-
-// Emulation driver - runs in its own coroutine and conducts execution through the dethreader runtime system
-void emuDriver()
-{
-  // Creating dethreader manager
-  jaffarCommon::dethreader::Runtime r;
-
-  // Creating init task
-  auto initTask = []()
-  {
-    retro_init();
-
-    struct retro_game_info game;
-    game.path = _romFilePath.c_str();
-    _loadResult = retro_load_game(&game);
-
-    printf("Exiting from init task\n"); fflush(stdout);
-    _emuDriverCoroutine = co_active();
-    co_switch(_driverCoroutine);  
-    retro_run();
-    printf("back to init task\n"); fflush(stdout);
-  };
-
-  // Creating state advance task
-  auto advanceTask = []()
-  {
-    printf("Advance Task before while true...\n"); fflush(stdout);
-    while(true)
-    {
-      // If it's time to do it, run state
-      if (_advanceState == true)
-      {
-        printf("Before Retro Run...\n"); fflush(stdout);
-        retro_run();
-        _advanceState = false;
-
-        // Come back to driver scope
-        _emuDriverCoroutine = co_active();
-        co_switch(_driverCoroutine);
-      } 
-
-      // Yield execution
-      jaffarCommon::dethreader::yield();
-    }
-  };
-
-  // Addinng tasks
-  r.createThread(initTask);
-  r.createThread(advanceTask);
-
-  // Running dethreader runtime
-  r.initialize();
-  r.run();
 }
 
 void RETRO_CALLCONV retro_video_refresh_callback(const void *data, unsigned width, unsigned height, size_t pitch)
@@ -214,6 +142,8 @@ bool RETRO_CALLCONV retro_environment_callback(unsigned cmd, void *data)
     if (cmd == RETRO_ENVIRONMENT_GET_LANGUAGE) { return false; }
     if (cmd == RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY) { return false; }
     if (cmd == RETRO_ENVIRONMENT_GET_PREFERRED_HW_RENDER) { return false; }
+    if (cmd == RETRO_ENVIRONMENT_SET_HW_RENDER) { return false; }
+    if (cmd == RETRO_ENVIRONMENT_SHUTDOWN) { return false; }
     
     fprintf(stderr, "Unrecognized environment callback command: %u\n", cmd);
 
@@ -231,9 +161,34 @@ ECL_EXPORT void SetCdCallbacks(void (*cdrc)(int32_t lba, void * dest), int (*cds
   cd_sector_count_callback = cdscc;
 }
 
-uint32_t cd_get_size(void) {  return cd_sector_count_callback(); }
+uint32_t cd_get_size(void) {  return cd_sector_count_callback() * CDIMAGE_SECTOR_SIZE; }
+uint32_t cd_get_sector_count(void) {  return cd_sector_count_callback(); }
 void cd_set_sector(const uint32_t sector_) { _currentSector = sector_; }
 void cd_read_sector(void *buf_) {  cd_read_callback(_currentSector, buf_); }
+size_t readSegmentFromCD(void *buf_, const uint64_t address, const size_t size)
+{
+  uint64_t initialSector = address / CDIMAGE_SECTOR_SIZE;
+  uint64_t sectorCount = size / CDIMAGE_SECTOR_SIZE;
+  uint64_t lastSectorBytes = size % CDIMAGE_SECTOR_SIZE;
+
+  uint8_t tmpBuf[CDIMAGE_SECTOR_SIZE];
+  for (uint64_t i = 0; i < sectorCount; i++)
+  {
+    cd_set_sector(initialSector + i);
+    cd_read_sector(tmpBuf);
+    memcpy(&((uint8_t*)buf_)[CDIMAGE_SECTOR_SIZE * i], tmpBuf, CDIMAGE_SECTOR_SIZE);
+  }
+
+  if (lastSectorBytes > 0)
+  {
+    cd_set_sector(initialSector + sectorCount);
+    cd_read_sector(tmpBuf);
+    memcpy(&((uint8_t*)buf_)[CDIMAGE_SECTOR_SIZE * sectorCount], tmpBuf, lastSectorBytes);
+  }
+
+  return size;
+}
+
 /// CD Management Logic End
 
 ECL_EXPORT bool Init()
@@ -244,44 +199,12 @@ ECL_EXPORT bool Init()
   retro_set_video_refresh(retro_video_refresh_callback);
   retro_set_input_state(retro_input_state_callback);
 
-  printf("Starting Emu Driver Coroutine...\n");
-  _driverCoroutine = co_active();
-  constexpr size_t stackSize = 4 * 1024 * 1024;
-  _emuDriverCoroutine = co_create(stackSize, emuDriver);
-
-  // Loading CD into memfile
-  const auto cdSectorCount = cd_sector_count_callback();
-  printf("Loading CD %u with %u sectors...\n", 0, cdSectorCount);
-
-  // Uploading CD as a mem file
-  _romFilePath = "CDROM0.bin";
-	auto f = _memFileDirectory.fopen(_romFilePath, "w");
-	if (f == NULL) { fprintf(stderr, "Could not open mem file for write: %s\n", _romFilePath.c_str()); return false; }
-
-  // Writing contents into mem file, one by one
-  for (size_t i = 0; i < cdSectorCount; i++)
-  {
-    uint8_t sector[CDIMAGE_SECTOR_SIZE];
-    cd_set_sector(i);
-    cd_read_sector(sector);
-    auto writtenBlocks = jaffarCommon::file::MemoryFile::fwrite(sector, CDIMAGE_SECTOR_SIZE, 1, f);
-    if (writtenBlocks != 1) 
-    { 
-      fprintf(stderr, "Could not write data into mem file: %s\n", _romFilePath.c_str());
-      _memFileDirectory.fclose(f);
-      return false; 
-    }
-  }
-
-  // Closing file
-  _memFileDirectory.fclose(f);
-  
-  // Initializing emu core
-  co_switch(_emuDriverCoroutine);
-  if (_loadResult == false) { fprintf(stderr, "Could not load game: '%s'\n", _romFilePath.c_str()); return false; }
-
-  // Setting cd callbacks
-  // libretro_cdrom_set_callbacks(cd_get_size, cd_set_sector, cd_read_sector);
+  // Normal way to initialize
+  retro_init();
+  struct retro_game_info game;
+  game.path = _cdImageFilePath.c_str();
+  auto loadResult = retro_load_game(&game);
+  if (loadResult == false) { fprintf(stderr, "Could not load game"); return false; } 
 
   // Getting av info
   struct retro_system_av_info info;
@@ -311,9 +234,8 @@ ECL_EXPORT void FrameAdvance(MyFrameInfo* f)
   _inputPortsRead = 0;
 
   // Jumping into the emu driver coroutine to run a single frame
-  _advanceState = true;
   printf("Advancing Frame...\n"); fflush(stdout);
-  co_switch(_emuDriverCoroutine);
+  retro_run();
 
   // The frame is lagged if no inputs were read
   f->base.Lagged = !_inputPortsRead;
