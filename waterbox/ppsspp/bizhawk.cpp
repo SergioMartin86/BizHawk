@@ -207,9 +207,9 @@ ECL_EXPORT bool Init()
   if (loadResult == false) { fprintf(stderr, "Could not load game"); return false; } 
 
   // Getting av info
-  struct retro_system_av_info info;
-  retro_get_system_av_info(&info);
-  printf("PSP Framerate: %f\n", info.timing.fps);
+  // struct retro_system_av_info info;
+  // retro_get_system_av_info(&info);
+  // printf("PSP Framerate: %f\n", info.timing.fps);
 
   return true;
 }
