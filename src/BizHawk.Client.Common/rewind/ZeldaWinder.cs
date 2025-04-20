@@ -290,11 +290,7 @@ namespace BizHawk.Client.Common
 					_dest = replacement;
 				}
 			}
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override void Write(ReadOnlySpan<byte> buffer)
-#else
 			public void Write(ReadOnlySpan<byte> buffer)
-#endif
 			{
 				var requestedSize = _position + buffer.Length;
 				MaybeResize(requestedSize);
@@ -308,11 +304,7 @@ namespace BizHawk.Client.Common
 				_dest[_position] = value;
 				_position = requestedSize;
 			}
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override int Read(Span<byte> buffer) => throw new IOException();
-#else
 			public int Read(Span<byte> buffer) => throw new IOException();
-#endif
 		}
 	}
 }

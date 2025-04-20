@@ -70,13 +70,10 @@ namespace BizHawk.Client.EmuHawk
 			cbMenuWindowed.Checked = _config.DispChromeMenuWindowed;
 			cbMainFormSaveWindowPosition.Checked = _config.SaveWindowPosition;
 			cbMainFormStayOnTop.Checked = _config.MainFormStayOnTop;
-			cbMainFormMouseCaptureForcesTopmost.Checked = _config.MainFormMouseCaptureForcesTopmost;
 			if (OSTailoredCode.IsUnixHost)
 			{
 				cbMainFormStayOnTop.Enabled = false;
 				cbMainFormStayOnTop.Visible = false;
-				cbMainFormMouseCaptureForcesTopmost.Enabled = false;
-				cbMainFormMouseCaptureForcesTopmost.Visible = false;
 			}
 			cbStatusBarFullscreen.Checked = _config.DispChromeStatusBarFullscreen;
 			cbMenuFullscreen.Checked = _config.DispChromeMenuFullscreen;
@@ -158,7 +155,6 @@ namespace BizHawk.Client.EmuHawk
 			_config.SaveWindowPosition = cbMainFormSaveWindowPosition.Checked;
 			_config.MainFormStayOnTop = cbMainFormStayOnTop.Checked;
 			Owner.TopMost = _config.MainFormStayOnTop;
-			_config.MainFormMouseCaptureForcesTopmost = cbMainFormMouseCaptureForcesTopmost.Checked;
 			_config.DispChromeStatusBarFullscreen = cbStatusBarFullscreen.Checked;
 			_config.DispChromeMenuFullscreen = cbMenuFullscreen.Checked;
 			_config.DispChromeFrameWindowed = trackbarFrameSizeWindowed.Value;

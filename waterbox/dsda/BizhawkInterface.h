@@ -90,12 +90,6 @@ enum MemoryArrayType
   ARRAY_SECTORS = 2
 };
 
-enum NativeResolution
-{
-  NATIVE_X = 320,
-  NATIVE_Y = 200
-};
-
 typedef union
 {
     struct
@@ -156,19 +150,8 @@ struct PackedPlayerInput
 
 struct PackedRenderInfo
 {
-  int DoUpdate;
   int RenderVideo;
   int RenderAudio;
-  int ScaleFactor;
-  int Gamma;
-  int ShowMessages;
-  int ReportSecrets;
-  int HeadsUpMode;
-  int DsdaExHud;
-  int DisplayCommands;
-  int MapTotals;
-  int MapTime;
-  int MapCoordinates;
   int PlayerPointOfView;
 } __attribute__((packed));
 

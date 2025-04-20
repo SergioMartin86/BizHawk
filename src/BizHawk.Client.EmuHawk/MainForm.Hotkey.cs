@@ -152,9 +152,6 @@ namespace BizHawk.Client.EmuHawk
 				case "Capture Mouse":
 					ToggleCaptureMouse();
 					break;
-				case "Toggle Stay on Top":
-					ToggleStayOnTop();
-					break;
 
 				// Save States
 				case "Save State 1":

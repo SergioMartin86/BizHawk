@@ -443,22 +443,14 @@ namespace BizHawk.Client.Common
 			public override int Read(byte[] buffer, int offset, int count) => throw new IOException();
 			public override long Seek(long offset, SeekOrigin origin) => throw new IOException();
 			public override void SetLength(long value) => throw new IOException();
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override int Read(Span<byte> buffer) => throw new IOException();
-#else
 			public int Read(Span<byte> buffer) => throw new IOException();
-#endif
 
 			public override void Write(byte[] buffer, int offset, int count)
 			{
 				Write(new ReadOnlySpan<byte>(buffer, offset, count));
 			}
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override void Write(ReadOnlySpan<byte> buffer)
-#else
 			public void Write(ReadOnlySpan<byte> buffer)
-#endif
 			{
 				long requestedSize = _position + buffer.Length;
 				while (requestedSize > _notifySize)
@@ -534,11 +526,7 @@ namespace BizHawk.Client.Common
 				return Read(new Span<byte>(buffer, offset, count));
 			}
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override int Read(Span<byte> buffer)
-#else
 			public int Read(Span<byte> buffer)
-#endif
 			{
 				long n = Math.Min(_size - _position, buffer.Length);
 				int ret = (int)n;
@@ -589,11 +577,7 @@ namespace BizHawk.Client.Common
 			public override void SetLength(long value) => throw new IOException();
 			public override void Write(byte[] buffer, int offset, int count) => throw new IOException();
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-			public override void Write(ReadOnlySpan<byte> buffer) => throw new IOException();
-#else
 			public void Write(ReadOnlySpan<byte> buffer) => throw new IOException();
-#endif
 		}
 	}
 }

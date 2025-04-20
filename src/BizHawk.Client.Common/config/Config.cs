@@ -169,7 +169,6 @@ namespace BizHawk.Client.Common
 		public string UpdateIgnoreVersion { get; set; } = "";
 		public bool SkipOutdatedOsCheck { get; set; }
 		public bool CaptureMouse { get; set; } = false;
-		public bool MainFormMouseCaptureForcesTopmost { get; set; } = false;
 
 		public bool SkipSuperuserPrivsCheck { get; set; }
 

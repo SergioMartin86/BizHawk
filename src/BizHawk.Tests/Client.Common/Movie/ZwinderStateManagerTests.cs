@@ -119,17 +119,11 @@ namespace BizHawk.Tests.Client.Common.Movie
 				buff.Capture(frame, (s) => ss.SaveStateBinary(new BinaryWriter(s)));
 			}
 			// states are 504 bytes large, buffer is 1048576 bytes large
-			Assert.AreEqual(2080, buff.Count, "buff.Count");
-			Assert.AreEqual(10, buff.GetState(0).Frame, "buff.GetState(0).Frame");
-			Assert.AreEqual(2089, buff.GetState(2079).Frame, "buff.GetState(2079).Frame");
-			Assert.AreEqual(
-				10,
-				StateSource.GetFrameNumberInState(buff.GetState(0).GetReadStream()),
-				"buff.GetState(0).ReadFrame()");
-			Assert.AreEqual(
-				2089,
-				StateSource.GetFrameNumberInState(buff.GetState(2079).GetReadStream()),
-				"buff.GetState(2079).ReadFrame()");
+			Assert.AreEqual(buff.Count, 2080);
+			Assert.AreEqual(buff.GetState(0).Frame, 10);
+			Assert.AreEqual(buff.GetState(2079).Frame, 2089);
+			Assert.AreEqual(StateSource.GetFrameNumberInState(buff.GetState(0).GetReadStream()), 10);
+			Assert.AreEqual(StateSource.GetFrameNumberInState(buff.GetState(2079).GetReadStream()), 2089);
 
 			var ms = new MemoryStream();
 			buff.SaveStateBinary(new BinaryWriter(ms));
@@ -138,17 +132,11 @@ namespace BizHawk.Tests.Client.Common.Movie
 
 			Assert.AreEqual(buff.Size, buff2.Size);
 			Assert.AreEqual(buff.Used, buff2.Used);
-			Assert.AreEqual(2080, buff2.Count, "buff2.Count");
-			Assert.AreEqual(10, buff2.GetState(0).Frame, "buff2.GetState(0).Frame");
-			Assert.AreEqual(2089, buff2.GetState(2079).Frame, "buff2.GetState(2079).Frame");
-			Assert.AreEqual(
-				10,
-				StateSource.GetFrameNumberInState(buff2.GetState(0).GetReadStream()),
-				"buff2.GetState(0).ReadFrame()");
-			Assert.AreEqual(
-				2089,
-				StateSource.GetFrameNumberInState(buff2.GetState(2079).GetReadStream()),
-				"buff2.GetState(2079).ReadFrame()");
+			Assert.AreEqual(buff2.Count, 2080);
+			Assert.AreEqual(buff2.GetState(0).Frame, 10);
+			Assert.AreEqual(buff2.GetState(2079).Frame, 2089);
+			Assert.AreEqual(StateSource.GetFrameNumberInState(buff2.GetState(0).GetReadStream()), 10);
+			Assert.AreEqual(StateSource.GetFrameNumberInState(buff2.GetState(2079).GetReadStream()), 2089);
 		}
 
 		[TestMethod]
@@ -283,6 +271,7 @@ namespace BizHawk.Tests.Client.Common.Movie
 			var actual = zw.GetStateClosestToFrame(futureReservedFrame + 1);
 
 			// Assert
+			Assert.IsNotNull(actual);
 			Assert.AreEqual(futureReservedFrame, actual.Key);
 		}
 
