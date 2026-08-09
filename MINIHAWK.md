@@ -11,12 +11,13 @@ from the tree and loaded on-the-fly as external, self-contained packages just be
 2. **Published core contract.** The core-facing API (essentially `BizHawk.Emulation.Common`
    + `BizHawk.BizInvoke`) becomes a versioned, published contract. A core package must be
    buildable outside the miniHawk repo against that contract alone.
-3. **Determinism witness.** The QuickerNES regression suite (34 test movies in
+3. **Determinism witness.** The QuickerNES regression suite (31 test movies in
    `quicknes/core/tests/`, from github.com/SergioMartin86/quickerNES) must resync to
    success at every phase boundary, including after the core is evicted to an external
    package. Running the full suite green at every step is paramount to conserving
    correctness. Test ROMs live at `C:\Users\sergiom\Documents\TAS\roms\nes` (file names
-   match the `.test` files' `Rom File` entries; SHA1-verified).
+   match the `.test` files' `Rom File` entries; SHA1-verified). In-scope counts after
+   Phase 0 triage: 28 at Level A (native), 26 at Level B (full-stack).
 4. **TAS-only frontend.** Kept: TAStudio, movie record/playback, savestates, rewind, frame
    advance, virtual pads, RAM Watch/Search, Hex Editor, Cheats, Lua console (core-agnostic
    APIs only), A/V dumping + screenshots, core-agnostic debug tools (trace logger, CDL,
@@ -45,7 +46,11 @@ phase of unverified change.
   the native quickerNES tester's ground truth. No product code changes.
 - **Phase 1 — Shrink to one core, statically.** Remove all cores except QuickNes from the
   build; delete frontend features that referenced them (~26 files in Client.Common,
-  ~70 in Client.EmuHawk reach into concrete core types). No architecture changes.
+  ~70 in Client.EmuHawk reach into concrete core types). Also remove all core-related
+  static assets, DLLs, resources, and submodules not strictly needed by miniHawk or
+  quickerNES (Assets/dll payloads, waterbox/*, submodules/*, ExternalCoreProjects, etc.).
+  OPEN DECISION: whether the waterbox host machinery is kept or removed — do not delete
+  it until the user decides. No architecture changes.
 - **Phase 2 — Publish the contract.** Extract the core API layer; invert `CoreInventory`
   (src/BizHawk.Emulation.Cores/CoreInventory.cs) to accept externally loaded assemblies;
   harden settings/sync-settings (de)serialization against types from external assemblies
@@ -80,6 +85,55 @@ Level B sharp edges, to resolve in Phase 0: input-string → BizHawk controller 
 must be validated button-by-button; the two initial-`.state` tests (microMachines,
 saiyuukiWorld.lastHalf) use quickerNES-native state format and may remain Level-A-only;
 BizHawk power-on state must be confirmed identical to the bare core's.
+
+Witness-set exclusions found in Phase 0 (28 of 31 at Level A; 26 at Level B):
+- `castlevania3.playaround`: mapper 5 (MMC5) is deliberately disabled in the
+  BizHawk-pinned TASEmulators/quickerNES fork (poor QuickNES MMC5 support) — excluded.
+- `novaTheSquirrel.anyPercent`: pinned core segfaults in `Core::serializeState` on
+  mapper 30 (UNROM 512) before emulation starts. Pre-existing fork bug, likely affects
+  stock BizHawk too — excluded pending separate investigation.
+- `arkanoid2.arkFamicomController`: local `Arkanoid II (Japan).nes` dump SHA1 does not
+  match the test's expected dump — excluded until the matching dump is available.
+- `rcProAmII.race1` / `superOffroad.anyPercent`: upstream's quickNES-vs-quickerNES
+  comparison fails, but quickerNES itself runs and hashes fine — IN scope (miniHawk
+  Level A compares quickerNES hashes against stored goldens, not core-vs-core).
+- Note: the native tester build needs `-Wno-unused-but-set-variable` appended to
+  `commonCompileArgs` under GCC 13+ (applied to the WSL build copy only, not the
+  submodule).
+
+Phase 0 discoveries about frame alignment (validated by per-frame RAM comparison):
+- EmuHawk emulates exactly ONE frame during ROM load, before a `--lua` script's
+  first line executes. A naive Lua replay is therefore one frame late relative to a
+  power-on input sequence. `replay.lua` compensates with `client.reboot_core()` at
+  script start (verified `startframe=0` afterward). Remember this when miniHawk later
+  aligns `.bk2` movies with tester `.sol` sequences.
+- quickerNES `emulate_skip_frame` (rendering disabled, used by the native tester) was
+  verified state-equivalent to `emulate_frame` — rendering on/off does not affect RAM.
+- EmuHawk power-on RAM state is byte-identical to the bare core's (no adapter-side
+  initialization differences).
+- Lua `joypad.set` input passes through the SOCD (opposing-directions) filter
+  (`UdlrControllerAdapter`), whose default `Priority` policy silently rewrites
+  simultaneous L+R / U+D — which the TAS movies use heavily. The harness config sets
+  `OpposingDirPolicy: 2` (Allow). Note for miniHawk: `.bk2` movie *playback* bypasses
+  this filter (it taps the chain after the SOCD adapter); only Lua/user input is
+  affected.
+- The native tester parses but IGNORES console Reset/Power flags during replay
+  (`input.reset` is dead in `advanceState`); the harness mirrors that.
+- Lua `joypad.setanalog` axis sticky-holds never reach the output controller in this
+  BizHawk build (axes die between `StickyHoldController` and the final controller);
+  axes must be delivered via `joypad.setfrommnemonicstr`, which routes through
+  `ButtonOverrideAdapter` → `Controller.Overrides()`. Worth revisiting when miniHawk
+  owns the input pipeline.
+- Phase 0 witness status: 26/26 Level B tests PASS byte-identical to native ground
+  truth in BOTH modes (simple replay AND per-frame savestate rerecord); Level A
+  goldens recorded for 28/28.
+- Core finding for upstream quickerNES: a full-state savestate round-trip is NOT
+  lossless for `gimmick` (Sunsoft FME-7) and `superOffroad` — the native core itself
+  perturbs state on deserialize+advance (EmuHawk mirrors it byte-exactly, so the
+  frontend is faithful; the incompleteness is in core serialization). Deterministic,
+  so the witness remains sound, but worth an upstream look.
+- Core finding for upstream: pinned fork segfaults in `Core::serializeState` on
+  mapper 30 (novaTheSquirrel) — see witness-set exclusions.
 
 ## Architecture facts informing the plan
 
